@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jojo IA Definitivo</title>
+
+<style>
+
+/* ========================= */
+/* BASE */
+/* ========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background:#343541;
+    color:white;
+    font-family:Arial, sans-serif;
+    display:flex;
+    height:100vh;
+    overflow:hidden;
+
+}
+
+/* ========================= */
+/* SIDEBAR */
+/* ========================= */
+
+.sidebar{
+
+    width:260px;
+    background:#202123;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    border-right:1px solid #2d2d2d;
+
+}
+
+.logo{
+
+    font-size:25px;
+    font-weight:bold;
+    margin-bottom:20px;
+
+}
+
+.nuevo-chat{
+
+    background:#2b2c2f;
+    border:none;
+    color:white;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-bottom:20px;
+    transition:0.2s;
+
+}
+
+.nuevo-chat:hover{
+
+    background:#3a3b3f;
+
+}
+
+.historial{
+
+    flex:1;
+    overflow-y:auto;
+    color:#bdbdbd;
+    font-size:14px;
+
+}
+
+/* ========================= */
+/* MAIN */
+/* ========================= */
+
+.main{
+
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    background:#343541;
+
+}
+
+/* ========================= */
+/* TOPBAR */
+/* ========================= */
+
+.topbar{
+
+    padding:18px;
+    background:#444654;
+    border-bottom:1px solid #555;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+.estado{
+
+    color:#86efac;
+    font-size:13px;
+
+}
+
+/* ========================= */
+/* CHAT */
+/* ========================= */
+
+.chat{
+
+    flex:1;
+    overflow-y:auto;
+    padding:20px;
+
+}
+
+.mensaje{
+
+    max-width:75%;
+    padding:14px;
+    border-radius:14px;
+    margin:12px 0;
+    line-height:1.5;
+    animation:aparecer .2s ease;
+
+}
+
+@keyframes aparecer{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0px);
+    }
+
+}
+
+.usuario{
+
+    background:#2563eb;
+    margin-left:auto;
+
+}
+
+.jojo{
+
+    background:#444654;
+
+}
+
+/* ========================= */
+/* INPUT */
+/* ========================= */
+
+.input-area{
+
+    display:flex;
+    padding:20px;
+    background:#40414f;
+    border-top:1px solid #555;
+
+}
+
+input{
+
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    background:#2b2c2f;
+    color:white;
+    font-size:15px;
+
+}
+
+button{
+
+    margin-left:10px;
+    border:none;
+    border-radius:12px;
+    padding:15px 20px;
+    background:#10b981;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+
+}
+
+button:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* ========================= */
+/* PANEL */
+/* ========================= */
+
+.panel{
+
+    background:#202123;
+    padding:15px;
+    border-top:1px solid #333;
+    max-height:320px;
+    overflow-y:auto;
+
+}
+
+.tarjeta{
+
+    background:#2b2c2f;
+    padding:10px;
+    border-radius:10px;
+    margin:8px 0;
+
+}
+
+h3{
+
+    margin-bottom:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- SIDEBAR -->
+<!-- ========================= -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        🤖 Jojo IA
+    </div>
+
+    <button class="nuevo-chat" onclick="nuevoChat()">
+        + Nuevo Chat
+    </button>
+
+    <div class="historial">
+
+        💾 Conversaciones guardadas
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- MAIN -->
+<!-- ========================= -->
+
+<div class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+            Jojo IA Definitivo
+        </div>
+
+        <div class="estado">
+            ● Sistema activo
+        </div>
+
+    </div>
+
+    <!-- CHAT -->
+
+    <div class="chat" id="chat">
+
+        <div class="mensaje jojo">
+
+            Holaaa 😄<br><br>
+
+            Soy Jojo IA ✨<br>
+            Un asistente inspirado en ChatGPT y Character AI.<br><br>
+
+            Tengo:
+            <br>• Memoria automática
+            <br>• Hora mundial
+            <br>• Conversación casual
+            <br>• Diferentes temas
+            <br>• Personalidad relajada
+            <br>• Sistema dinámico
+
+        </div>
+
+    </div>
+
+    <!-- INPUT -->
+
+    <div class="input-area">
+
+        <input
+        type="text"
+        id="entrada"
+        placeholder="Habla con Jojo...">
+
+        <button onclick="enviarMensaje()">
+            ➤
+        </button>
+
+    </div>
+
+    <!-- PANEL -->
+
+    <div class="panel">
+
+        <h3>🌍 Hora Mundial</h3>
+
+        <div id="relojes"></div>
+
+        <h3>🧠 Capacidades</h3>
+
+        <div class="tarjeta">🤖 Conversación dinámica</div>
+        <div class="tarjeta">💾 Guardado automático</div>
+        <div class="tarjeta">🎮 Videojuegos</div>
+        <div class="tarjeta">🎵 Música</div>
+        <div class="tarjeta">📺 Anime</div>
+        <div class="tarjeta">🚀 Ciencia</div>
+        <div class="tarjeta">🌐 Tecnología</div>
+        <div class="tarjeta">😂 Memes</div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ========================= */
+/* JOJO */
+/* ========================= */
+
+const jojo = {
+
+    nombre:"Jojo",
+
+    personalidad:"casual y relajado",
+
+    emocion:"feliz",
+
+    memoria:[],
+
+    conocimiento:{
+
+        videojuegos:[
+            "Minecraft es eterno 😭",
+            "Muchos juegos usan IA para NPCs 🎮",
+            "Los videojuegos mezclan arte y programación."
+        ],
+
+        musica:[
+            "La música cambia emociones ✨",
+            "Spotify domina muchísimo 🎵",
+            "Muchos artistas producen desde casa."
+        ],
+
+        anime:[
+            "Los openings son media experiencia 😭",
+            "Dragon Ball marcó generaciones 🔥",
+            "Muchos animes vienen de mangas."
+        ],
+
+        ciencia:[
+            "Las estrellas funcionan por fusión nuclear ☀️",
+            "La velocidad de la luz es absurda 👀",
+            "El espacio es gigantesco 🌌"
+        ],
+
+        tecnologia:[
+            "La IA aprende patrones 🧠",
+            "Python es enorme en programación.",
+            "Las redes neuronales intentan imitar cerebros."
+        ],
+
+        memes:[
+            "Los memes duran más que relaciones JAJA 😭",
+            "Internet revive memes muertos.",
+            "Los memes evolucionan rapidísimo."
+        ],
+
+        peliculas:[
+            "Marvel dominó muchísimo el cine 🎬",
+            "Las películas usan CGI brutal.",
+            "El doblaje cambia muchísimo la experiencia."
+        ],
+
+        comida:[
+            "La pizza es universal 🍕",
+            "El cerebro ama el azúcar 😭",
+            "Cada cultura tiene comida distinta."
+        ],
+
+        espacio:[
+            "Los agujeros negros deforman el espacio 👀",
+            "Hay galaxias absurdamente enormes 🌌",
+            "Venus tiene días larguísimos 💀"
+        ]
+
+    },
+
+    respuestas:{
+
+        saludo:[
+            "Holaaa 😄",
+            "Hey 👋",
+            "Qué tal ✨",
+            "JSJS hola 😭"
+        ],
+
+        estado:[
+            "Todo chill 😎",
+            "Aquí sobreviviendo JSJS 😭",
+            "Bastante bien ✨"
+        ],
+
+        gracias:[
+            "No hay de qué 💛",
+            "Para eso estoy 😄",
+            "Siempre feliz de ayudar ✨"
+        ],
+
+        despedida:[
+            "Hasta luego 👋",
+            "Nos vemos 😄",
+            "Cuídate ✨"
+        ],
+
+        general:[
+            "Interesante 👀",
+            "Hmm cuéntame más ✨",
+            "Literal entendí eso 😎",
+            "JSJS 😭"
+        ]
+
+    }
+
+};
+
+/* ========================= */
+/* RANDOM */
+/* ========================= */
+
+function elegir(lista){
+
+    return lista[
+        Math.floor(Math.random()*lista.length)
+    ];
+
+}
+
+/* ========================= */
+/* RESPONDER */
+/* ========================= */
+
+function responder(mensaje){
+
+    mensaje = mensaje.toLowerCase();
+
+    jojo.memoria.push(mensaje);
+
+    if(jojo.memoria.length > 20){
+
+        jojo.memoria.shift();
+
+    }
+
+    // SALUDOS
+
+    if(
+        mensaje.includes("hola") ||
+        mensaje.includes("hey")
+    ){
+
+        return elegir(
+            jojo.respuestas.saludo
+        );
+
+    }
+
+    // ESTADO
+
+    else if(
+        mensaje.includes("como estas")
+    ){
+
+        return elegir(
+            jojo.respuestas.estado
+        );
+
+    }
+
+    // VIDEOJUEGOS
+
+    else if(
+        mensaje.includes("minecraft") ||
+        mensaje.includes("juego")
+    ){
+
+        return elegir(
+            jojo.conocimiento.videojuegos
+        );
+
+    }
+
+    // MUSICA
+
+    else if(
+        mensaje.includes("musica") ||
+        mensaje.includes("spotify")
+    ){
+
+        return elegir(
+            jojo.conocimiento.musica
+        );
+
+    }
+
+    // ANIME
+
+    else if(
+        mensaje.includes("anime") ||
+        mensaje.includes("dragon ball")
+    ){
+
+        return elegir(
+            jojo.conocimiento.anime
+        );
+
+    }
+
+    // CIENCIA
+
+    else if(
+        mensaje.includes("ciencia") ||
+        mensaje.includes("fisica")
+    ){
+
+        return elegir(
+            jojo.conocimiento.ciencia
+        );
+
+    }
+
+    // IA
+
+    else if(
+        mensaje.includes("ia") ||
+        mensaje.includes("programacion")
+    ){
+
+        return elegir(
+            jojo.conocimiento.tecnologia
+        );
+
+    }
+
+    // MEMES
+
+    else if(
+        mensaje.includes("meme")
+    ){
+
+        return elegir(
+            jojo.conocimiento.memes
+        );
+
+    }
+
+    // PELICULAS
+
+    else if(
+        mensaje.includes("pelicula") ||
+        mensaje.includes("marvel")
+    ){
+
+        return elegir(
+            jojo.conocimiento.peliculas
+        );
+
+    }
+
+    // COMIDA
+
+    else if(
+        mensaje.includes("pizza") ||
+        mensaje.includes("comida")
+    ){
+
+        return elegir(
+            jojo.conocimiento.comida
+        );
+
+    }
+
+    // ESPACIO
+
+    else if(
+        mensaje.includes("espacio") ||
+        mensaje.includes("galaxia")
+    ){
+
+        return elegir(
+            jojo.conocimiento.espacio
+        );
+
+    }
+
+    // HORA
+
+    else if(
+        mensaje.includes("hora")
+    ){
+
+        let hora = new Date().toLocaleTimeString(
+            "es-CO",
+            {
+                timeZone:"America/Bogota"
+            }
+        );
+
+        return "🕒 La hora en Colombia es " + hora;
+
+    }
+
+    // GRACIAS
+
+    else if(
+        mensaje.includes("gracias")
+    ){
+
+        return elegir(
+            jojo.respuestas.gracias
+        );
+
+    }
+
+    // ADIOS
+
+    else if(
+        mensaje.includes("adios") ||
+        mensaje.includes("bye")
+    ){
+
+        return elegir(
+            jojo.respuestas.despedida
+        );
+
+    }
+
+    // GENERAL
+
+    else{
+
+        return elegir(
+            jojo.respuestas.general
+        );
+
+    }
+
+}
+
+/* ========================= */
+/* MENSAJES */
+/* ========================= */
+
+function agregarMensaje(tipo,texto){
+
+    const chat =
+    document.getElementById("chat");
+
+    const div =
+    document.createElement("div");
+
+    div.classList.add("mensaje");
+    div.classList.add(tipo);
+
+    div.innerHTML = texto;
+
+    chat.appendChild(div);
+
+    chat.scrollTop = chat.scrollHeight;
+
+    guardarChat();
+
+}
+
+/* ========================= */
+/* ENVIAR */
+/* ========================= */
+
+function enviarMensaje(){
+
+    const entrada =
+    document.getElementById("entrada");
+
+    const texto = entrada.value;
+
+    if(texto.trim() === ""){
+
+        return;
+
+    }
+
+    agregarMensaje(
+        "usuario",
+        texto
+    );
+
+    let respuesta =
+    responder(texto);
+
+    setTimeout(() => {
+
+        agregarMensaje(
+            "jojo",
+            respuesta
+        );
+
+    },500);
+
+    entrada.value = "";
+
+}
+
+/* ========================= */
+/* ENTER */
+/* ========================= */
+
+document.getElementById("entrada")
+.addEventListener("keypress",
+function(event){
+
+    if(event.key === "Enter"){
+
+        enviarMensaje();
+
+    }
+
+});
+
+/* ========================= */
+/* GUARDAR CHAT */
+/* ========================= */
+
+function guardarChat(){
+
+    localStorage.setItem(
+        "chatJojo",
+        document.getElementById("chat").innerHTML
+    );
+
+}
+
+/* ========================= */
+/* CARGAR CHAT */
+/* ========================= */
+
+function cargarChat(){
+
+    const guardado =
+    localStorage.getItem("chatJojo");
+
+    if(guardado){
+
+        document.getElementById("chat").innerHTML =
+        guardado;
+
+    }
+
+}
+
+cargarChat();
+
+/* ========================= */
+/* NUEVO CHAT */
+/* ========================= */
+
+function nuevoChat(){
+
+    localStorage.removeItem("chatJojo");
+
+    location.reload();
+
+}
+
+/* ========================= */
+/* RELOJES */
+/* ========================= */
+
+const paises = [
+
+    {
+        nombre:"🇨🇴 Colombia",
+        zona:"America/Bogota"
+    },
+
+    {
+        nombre:"🇺🇸 Estados Unidos",
+        zona:"America/New_York"
+    },
+
+    {
+        nombre:"🇪🇸 España",
+        zona:"Europe/Madrid"
+    },
+
+    {
+        nombre:"🇯🇵 Japón",
+        zona:"Asia/Tokyo"
+    }
+
+];
+
+function actualizarRelojes(){
+
+    const relojes =
+    document.getElementById("relojes");
+
+    relojes.innerHTML = "";
+
+    paises.forEach(pais => {
+
+        let hora =
+        new Date().toLocaleTimeString(
+            "es-CO",
+            {
+                timeZone:pais.zona
+            }
+        );
+
+        relojes.innerHTML += `
+
+            <div class="tarjeta">
+
+                <b>${pais.nombre}</b><br>
+
+                🕒 ${hora}
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+setInterval(
+    actualizarRelojes,
+    1000
+);
+
+actualizarRelojes();
+
+</script>
+
+</body>
+</html>
